@@ -18,7 +18,10 @@ const weather = require("./routes/Air_Quality");
 app.use("/api", weather);
 
 app.get("/", (req, res) => res.send("Server is running"));
-
+app.post("/", (req, res) => {
+  const { name } = req.body;
+  res.json({ msg: `Hello ${name}, from server` });
+});
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
