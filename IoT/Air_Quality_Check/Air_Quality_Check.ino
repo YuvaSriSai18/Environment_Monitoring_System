@@ -1,9 +1,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-
 // WiFi credentials
-const char* ssid = "Next Tech Lab";          // Replace with your WiFi SSID
-const char* password = "ntlapW203";     // Replace with your WiFi password
+const char* ssid = "Next Tech Lab";  // Replace with your WiFi SSID
+const char* password = "ntlapW203";  // Replace with your WiFi password
 
 // Server URL
 const char* serverUrl = "https://hk9zkn3x-3423.inc1.devtunnels.ms/api";
@@ -40,6 +39,7 @@ void loop() {
   mq7Value = analogRead(mq7Pin);
   mq6Value = analogRead(mq6Pin);
 
+
   // Print the sensor values to the Serial Monitor
   Serial.print("MQ2 Value: ");
   Serial.println(mq2Value);
@@ -54,37 +54,34 @@ void loop() {
   sendDataToServer();
 
   // Delay for 10 seconds (adjust as needed)
-  delay(60000);  
+  delay(60000 );
 }
 
 void sendDataToServer() {
-  if (WiFi.status() == WL_CONNECTED) { // Check if the ESP32 is connected to WiFi
+  // int i = 0;
+  if (WiFi.status() == WL_CONNECTED) {  // Check if the ESP32 is connected to WiFi
     HTTPClient http;
-    http.begin(serverUrl); // Specify the URL
-    http.addHeader("Content-Type", "application/json"); // Specify content type as JSON
+    http.begin(serverUrl);                               // Specify the URL
+    http.addHeader("Content-Type", "application/json");  // Specify content type as JSON
     float latitude = 16.4346;
     float longitude = 80.5662;
     // Create JSON object with sensor values
-    String jsonData = String("{\"mq2\":") + mq2Value + 
-                      ",\"mq8\":" + mq8Value + 
-                      ",\"mq7\":" + mq7Value + 
-                      ",\"mq6\":" + mq6Value + 
-                      ",\"latitude\":" + latitude + 
-                      ",\"longitude\":" + longitude + 
-                      "}";
+    String jsonData = String("{\"mq2\":") + mq2Value + ",\"mq8\":" + mq8Value + ",\"mq7\":" + mq7Value + ",\"mq6\":" + mq6Value + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + "}";
 
     // Send the HTTP POST request
     int httpResponseCode = http.POST(jsonData);
 
     // Check response code
     if (httpResponseCode > 0) {
-      String response = http.getString(); // Get the response from the server
+      String response = http.getString();  // Get the response from the server
       Serial.println("Data server response: " + response);
+      // Serial.println("Iteration : " + i); 
+      // i = i + 1;
     } else {
       Serial.println("Error sending POST request: " + String(httpResponseCode));
     }
 
-    http.end(); // Close connection
+    http.end();  // Close connection
   } else {
     Serial.println("WiFi disconnected");
   }
