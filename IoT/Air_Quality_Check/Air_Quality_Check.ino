@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 // WiFi credentials
-const char* ssid = "Next Tech Lab";  // Replace with your WiFi SSID
-const char* password = "ntlapW203";  // Replace with your WiFi password
+const char* ssid = "wifi-username";  // Replace with your WiFi SSID
+const char* password = "wifi-password";  // Replace with your WiFi password
 
 // Server URL
 const char* serverUrl = "https://hk9zkn3x-3423.inc1.devtunnels.ms/api";
